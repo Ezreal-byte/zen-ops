@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+   zen-ops:
+     build:
+       context: .
+       dockerfile: Dockerfile
+     image: zen-ops:latest
+     container_name: zen-ops
+     restart: unless-stopped
+     ports:
+       - "9998:9998"
+     volumes:
+       # 映射配置文件目录（宿主机 -> 容器）
+       - ./docker/config:/app/config
+       # 映射日志目录（宿主机 -> 容器）
+       - ./docker/logs:/app/logs
+       # 映射 SQLite 数据文件目录（宿主机 -> 容器） application.yml使用sqlite的时候使用
+       #- ./docker/data:/data
+     environment:
+       # JVM 参数
+       - JAVA_OPTS=-Xms512m -Xmx1024m -Djava.security.egd=file:/dev/./urandom
+       # 时区设置
+       - TZ=Asia/Shanghai
+     # 健康检查
+     healthcheck:
+       test: ["CMD", "curl", "-f", "http://localhost:9998/platform/actuator/health"]
+       interval: 30s
+       timeout: 10s
+       retries: 3
+       start_period: 40s
+     # 日志配置
+     logging:
+       driver: "json-file"
+       options:
+         max-size: "10m"
+         max-file: "3"

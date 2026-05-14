@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ops.zen.mapper.ZenSysUserMapper">
+  <insert id="insertBatch" parameterType="java.util.List">
+    INSERT INTO sys_user (PK_USER, USER_NAME, PASSWORD, NAME, PHONE, EMAIL, SEX, DEPARTMENT, IS_SYS, IS_LOCK, PK_CREATEDBY, DT_CREATED, PK_MODIFIEDBY, DT_MODIFIED, DS, VERSION, BLOB_HEADER) VALUES
+    <foreach collection="list" item="item" separator=",">
+      (#{item.pkUser}, #{item.userName}, #{item.password}, #{item.name}, #{item.phone}, #{item.email}, #{item.sex}, #{item.department}, #{item.isSys}, #{item.isLock}, #{item.pkCreatedby}, #{item.dtCreated}, #{item.pkModifiedby}, #{item.dtModified}, #{item.ds}, #{item.version}, #{item.blobHeader})
+    </foreach>
+  </insert>
+</mapper>

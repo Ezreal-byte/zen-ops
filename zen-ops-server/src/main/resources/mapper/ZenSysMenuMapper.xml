@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ops.zen.mapper.ZenSysMenuMapper">
+  <insert id="insertBatch" parameterType="java.util.List">
+    INSERT INTO sys_menu (PK_MENU, PK_PARENT, SUB_COUNT, NODE_TYPE, NAME, ICON, URL, COMPONENT, SORT_ORDER, IS_HIDDEN, IS_SYS, IS_LOCK, PK_CREATEDBY, DT_CREATED, PK_MODIFIEDBY, DT_MODIFIED, DS, VERSION) VALUES
+    <foreach collection="list" item="item" separator=",">
+      (#{item.pkMenu}, #{item.pkParent}, #{item.subCount}, #{item.nodeType}, #{item.name}, #{item.icon}, #{item.url}, #{item.component}, #{item.sortOrder}, #{item.isHidden}, #{item.isSys}, #{item.isLock}, #{item.pkCreatedby}, #{item.dtCreated}, #{item.pkModifiedby}, #{item.dtModified}, #{item.ds}, #{item.version})
+    </foreach>
+  </insert>
+</mapper>

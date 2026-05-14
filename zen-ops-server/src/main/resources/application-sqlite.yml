@@ -1,0 +1,40 @@
+server:
+  port: 9998 #tomcat端口
+  servlet:
+    context-path: /platform
+spring:
+  application:
+    name: zen-ops-server
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource:
+    driver-class-name: org.sqlite.JDBC #SQLite数据库驱动
+    url: jdbc:sqlite:./docker/data/zen_ops.db #SQLite数据库文件路径
+    # url: jdbc:sqlite:./zen_ops.db # 相对路径（相对于工作目录）
+    username: #SQLite不需要用户名
+    password: #SQLite不需要密码
+#      文件上传大小限制
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+mybatis-plus:
+  type-aliases-package: com.ops.zen.entity
+  type-handlers-package: com.ops.zen.config
+  mapper-locations: classpath*:mapper/*Mapper.xml,classpath:mapper/custom/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 注册自定义 TypeHandler
+    type-handlers-package: com.ops.zen.config
+logging:
+  config: classpath:logback.xml
+  level:
+    root: info
+zen:
+  user:
+    default-password: admin123

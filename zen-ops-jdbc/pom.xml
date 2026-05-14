@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.ops.zen</groupId>
+        <artifactId>zen-ops-parent</artifactId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.ops.zen</groupId>
+    <artifactId>zen-ops-jdbc</artifactId>
+    <name>zen-ops-jdbc</name>
+    <version>${revision}</version>
+
+    <packaging>jar</packaging>
+    <description>EasyJdbc Module</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.ops.zen</groupId>
+            <artifactId>zen-ops-common</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <!--druid-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.1.22</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ru.yandex.clickhouse</groupId>
+            <artifactId>clickhouse-jdbc</artifactId>
+            <version>0.3.1</version>
+        </dependency>
+        <!--     <dependency>
+                 <groupId>io.minio</groupId>
+                 <artifactId>minio</artifactId>
+             </dependency>-->
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-core</artifactId>
+        </dependency>
+    </dependencies>
+
+
+</project>

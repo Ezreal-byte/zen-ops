@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ops.zen.mapper.ZenDbExecLogMapper">
+
+    <!-- SQL审计日志VO ResultMap -->
+    <resultMap id="SqlAuditLogVoResultMap" type="com.ops.zen.sqlwindow.vo.SqlAuditLogVo">
+        <id column="PK_LOG" property="pkLog" />
+        <result column="PK_DS" property="pkDs" />
+        <result column="DB_SCHEMA" property="dbSchema" />
+        <result column="SQL_TEXT" property="sqlText" />
+        <result column="SQL_TYPE" property="sqlType" />
+        <result column="DML_TYPE" property="dmlType" />
+        <result column="SINGLE_TABLE_QUERY" property="singleTableQuery" />
+        <result column="PK_COLUMN" property="pkColumn" />
+        <result column="QUERY_TABLE" property="queryTable" />
+        <result column="QUERY_SCHEMA" property="querySchema" />
+        <result column="EXEC_STATUS" property="execStatus" />
+        <result column="EXEC_TIME_MS" property="execTimeMs" />
+        <result column="ERROR_MSG" property="errorMsg" />
+        <result column="AFFECTED_ROWS" property="affectedRows" />
+        <result column="PK_CREATEDBY" property="pkCreatedby" />
+        <result column="DT_CREATED" property="dtCreated" />
+        <result column="userName" property="userName" />
+        <result column="userLoginName" property="userLoginName" />
+    </resultMap>
+
+    <!-- 连表查询审计日志及用户信息 -->
+    <select id="selectLogsWithUser" resultMap="SqlAuditLogVoResultMap">
+        SELECT
+            l.PK_LOG,
+            l.PK_DS,
+            l.DB_SCHEMA,
+            l.SQL_TEXT,
+            l.SQL_TYPE,
+            l.DML_TYPE,
+            l.SINGLE_TABLE_QUERY,
+            l.PK_COLUMN,
+            l.QUERY_TABLE,
+            l.QUERY_SCHEMA,
+            l.EXEC_STATUS,
+            l.EXEC_TIME_MS,
+            l.ERROR_MSG,
+            l.AFFECTED_ROWS,
+            l.PK_CREATEDBY,
+            l.DT_CREATED,
+            u.NAME AS userName,
+            u.USER_NAME AS userLoginName
+        FROM zen_db_exec_log l
+        LEFT JOIN zen_sys_user u ON l.PK_CREATEDBY = u.PK_USER
+        <where>
+            <if test="pkCreatedby != null">
+                AND l.PK_CREATEDBY = #{pkCreatedby}
+            </if>
+            <if test="dbSchema != null and dbSchema != ''">
+                AND l.DB_SCHEMA = #{dbSchema}
+            </if>
+            <if test="sqlType != null and sqlType != ''">
+                AND l.SQL_TYPE = #{sqlType}
+            </if>
+            <if test="execStatus != null and execStatus != ''">
+                AND l.EXEC_STATUS = #{execStatus}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                AND l.SQL_TEXT LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+        ORDER BY l.DT_CREATED DESC
+    </select>
+
+</mapper>
