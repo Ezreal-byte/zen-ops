@@ -44,3 +44,7 @@ zen:
   user:
     default-password: admin123
   tags: 测试:warning,生产:primary,预发:info,高危:danger,内网:success
+  app:
+    title: ZenOps
+    subtitle: 一站式运维平台
+    browser-title: ZenOps一站式运维平台
